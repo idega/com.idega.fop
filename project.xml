@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <extend>${base.project.dir}/base-dependencies.xml</extend>
+  <name>idega location</name>
+  <artifactId>com.idega.fop</artifactId>
+  <currentVersion>SNAPSHOT</currentVersion>
+  <inceptionYear>2007</inceptionYear>
+  <shortDescription>extension of the apache fop project</shortDescription>
+  <description>extension of the apache fop project - convert pure data or xml data to  PDF, PCL, PS, SVG, XML (area tree representation), Print, AWT, MIF and TXT</description>
+  <versions>
+  </versions>
+  <developers>
+    <developer>
+      <id>tryggvil</id>
+      <name>Tryggvi Larusson</name>
+      <email>tryggvi@idega.is</email>
+      <organization>idega software</organization>
+      <roles/>
+    </developer>
+    <developer>
+      <id>thomas</id>
+      <name>Thomas Hilbig</name>
+      <email>thomas@idega.is</email>
+      <organization/>
+      <roles/>
+    </developer>
+  </developers>
+  <dependencies>
+     <dependency>
+      <groupId>bundles</groupId>
+      <artifactId>com.idega.core</artifactId>
+      <version>SNAPSHOT</version>
+      <type>jar</type>
+      <url>http://www.idega.com/</url>
+      <properties>
+        <eclipse.dependency>true</eclipse.dependency>
+      </properties>
+    </dependency>
+     <dependency>
+      <groupId>fop</groupId>
+      <artifactId>fop</artifactId>
+      <version>0.20.5</version>
+      <type>jar</type>
+    </dependency>
+      <dependency>
+      <!--  avalon is needed by fop  -->
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework</artifactId>
+      <version>4.1.5</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+    </unitTest>
+  </build>
+</project>
