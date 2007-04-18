@@ -1,5 +1,5 @@
 /*
- * $Id: Test.java,v 1.1 2007/04/05 22:21:14 thomas Exp $
+ * $Id: Test.java,v 1.2 2007/04/18 17:53:47 thomas Exp $
  * Created on Apr 3, 2007
  *
  * Copyright (C) 2007 Idega Software hf. All Rights Reserved.
@@ -15,21 +15,21 @@ import java.util.List;
 
 /**
  * 
- *  Last modified: $Date: 2007/04/05 22:21:14 $ by $Author: thomas $
+ *  Last modified: $Date: 2007/04/18 17:53:47 $ by $Author: thomas $
  * 
  * @author <a href="mailto:thomas@idega.com">thomas</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class Test {
 	
 	public static Property getTestInstanceOfAProperty() {
-		Property property = new SingleProperty("name","first name","Hello world");
-		Property property2 = new SingleProperty("name","first name2","Hello world2");
+		Property property = new PropertyImpl("name","first name","Hello world");
+		Property property2 = new PropertyImpl("name","first name2","Hello world2");
 		List list = new ArrayList();
 		list.add(property);
 
 		
-		Property property4 = new SingleProperty("name","first name4","Hello world4");
+		Property property4 = new PropertyImpl("name","first name4","Hello world4");
 		List list4 = new ArrayList();
 		list4.add(property4);
 		Property propList = new PropertyTree("others", "hello33", list4);
