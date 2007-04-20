@@ -1,5 +1,5 @@
 /*
- * $Id: DataToXMLToPDFBusinessBean.java,v 1.1 2007/04/05 22:21:14 thomas Exp $
+ * $Id: DataToXMLToPDFBusinessBean.java,v 1.2 2007/04/20 18:12:55 thomas Exp $
  * Created on Apr 2, 2007
  *
  * Copyright (C) 2007 Idega Software hf. All Rights Reserved.
@@ -11,25 +11,26 @@ package com.idega.fop.business;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
+import javax.faces.context.FacesContext;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import org.apache.fop.apps.Driver;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import com.idega.business.IBOServiceBean;
 import com.idega.fop.data.Property;
 import com.idega.fop.data.PropertyInputSource;
 import com.idega.fop.data.Test;
+import com.idega.fop.tools.PropertyWriter;
 import com.idega.fop.tools.PropertyXMLReader;
+import com.idega.io.serialization.Storable;
+import com.idega.io.serialization.WriterToFile;
+import com.idega.presentation.IWContext;
 import com.idega.util.xml.XMLData;
 import com.idega.xml.XMLDocument;
 import com.idega.xml.XMLElement;
@@ -37,10 +38,10 @@ import com.idega.xml.XMLElement;
 
 /**
  * 
- *  Last modified: $Date: 2007/04/05 22:21:14 $ by $Author: thomas $
+ *  Last modified: $Date: 2007/04/20 18:12:55 $ by $Author: thomas $
  * 
  * @author <a href="mailto:thomas@idega.com">thomas</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DataToXMLToPDFBusinessBean extends IBOServiceBean implements DataToXMLToPDFBusiness {
 	
@@ -86,47 +87,55 @@ public class DataToXMLToPDFBusinessBean extends IBOServiceBean implements DataTo
 	}
 	
 	public void xmlToPDF() throws TransformerException, IOException {
-		File inputFile = new File(getIWMainApplication().getApplicationSpecialRealPath(), "nest1.xml");
-		File outputFile = new File(getIWMainApplication().getApplicationSpecialRealPath(), "nest42.txt");
-		File nestXSLTFile = new File(getIWMainApplication().getApplicationSpecialRealPath(), "nest.xsl");
 		
-        Driver driver = new Driver();
-        
-        //Setup logger
-        //Logger logger = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
-        //driver.setLogger(logger);
-        //MessageHandler.setScreenLogger(logger);
+		IWContext iwc = IWContext.getIWContext(FacesContext.getCurrentInstance());
+		
+		Storable storable = Test.getTestInstanceOfAProperty();
 
-        //Setup Renderer (output format)        
-        driver.setRenderer(Driver.RENDER_TXT);
-        
-        //Setup output
-        OutputStream out = new java.io.FileOutputStream(outputFile);
-        try {
-            driver.setOutputStream(out);
-
-            //Setup XSLT
-            TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer(new StreamSource(nestXSLTFile));
-        
-    	    //Setup input
-            Property property = Test.getTestInstanceOfAProperty();
-    	    XMLReader xmlReader = new PropertyXMLReader();
-    	    InputSource inputSource = new PropertyInputSource(property); 
-    	    Source src = new SAXSource( xmlReader, inputSource);
-
-            
-            //Setup input for XSLT transformation
-            //Source src = new StreamSource(inputFile);
-        
-            //Resulting SAX events (the generated FO) must be piped through to FOP
-            Result res = new SAXResult(driver.getContentHandler());
-
-            //Start XSLT transformation and FOP processing
-            transformer.transform(src, res);
-        } finally {
-            out.close();
-        }
+		WriterToFile writerToFile = new PropertyWriter(storable, iwc);
+		writerToFile.createContainer();
 	}
+//		File inputFile = new File(getIWMainApplication().getApplicationSpecialRealPath(), "nest1.xml");
+//		File outputFile = new File(getIWMainApplication().getApplicationSpecialRealPath(), "nest42.txt");
+//		File nestXSLTFile = new File(getIWMainApplication().getApplicationSpecialRealPath(), "nest.xsl");
+//		
+//        Driver driver = new Driver();
+//        
+//        //Setup logger
+//        //Logger logger = new ConsoleLogger(ConsoleLogger.LEVEL_INFO);
+//        //driver.setLogger(logger);
+//        //MessageHandler.setScreenLogger(logger);
+//
+//        //Setup Renderer (output format)        
+//        driver.setRenderer(Driver.RENDER_TXT);
+//        
+//        //Setup output
+//        OutputStream out = new java.io.FileOutputStream(outputFile);
+//        try {
+//            driver.setOutputStream(out);
+//
+//            //Setup XSLT
+//            TransformerFactory factory = TransformerFactory.newInstance();
+//            Transformer transformer = factory.newTransformer(new StreamSource(nestXSLTFile));
+//        
+//    	    //Setup input
+//            Property property = Test.getTestInstanceOfAProperty();
+//    	    XMLReader xmlReader = new PropertyXMLReader();
+//    	    InputSource inputSource = new PropertyInputSource(property); 
+//    	    Source src = new SAXSource( xmlReader, inputSource);
+//
+//            
+//            //Setup input for XSLT transformation
+//            //Source src = new StreamSource(inputFile);
+//        
+//            //Resulting SAX events (the generated FO) must be piped through to FOP
+//            Result res = new SAXResult(driver.getContentHandler());
+//
+//            //Start XSLT transformation and FOP processing
+//            transformer.transform(src, res);
+//        } finally {
+//            out.close();
+//        }
+//	}
 	
 }

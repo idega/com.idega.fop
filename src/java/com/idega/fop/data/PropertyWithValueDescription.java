@@ -1,5 +1,5 @@
 /*
- * $Id: PropertyWithValueDescription.java,v 1.1 2007/04/18 17:53:47 thomas Exp $
+ * $Id: PropertyWithValueDescription.java,v 1.2 2007/04/20 18:12:55 thomas Exp $
  * Created on Apr 14, 2007
  *
  * Copyright (C) 2007 Idega Software hf. All Rights Reserved.
@@ -11,14 +11,15 @@ package com.idega.fop.data;
 
 import org.xml.sax.SAXException;
 import com.idega.fop.tools.EasyGenerationContentHandlerProxy;
+import com.idega.fop.visitor.PropertyVisitor;
 
 
 /**
  * 
- *  Last modified: $Date: 2007/04/18 17:53:47 $ by $Author: thomas $
+ *  Last modified: $Date: 2007/04/20 18:12:55 $ by $Author: thomas $
  * 
  * @author <a href="mailto:thomas@idega.com">thomas</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class PropertyWithValueDescription extends PropertyImpl {
 	
@@ -28,14 +29,13 @@ public class PropertyWithValueDescription extends PropertyImpl {
 		super(key, description, value);
 		this.valueDescription = valueDescription;
 	}
-
-	protected String getType() {
-		return PropertyConstants.PROPERTY_WITH_VALUE_DESCRIPTION;
-	}
 	
-	protected void addContent(EasyGenerationContentHandlerProxy contentHandler) throws SAXException {
-		super.addContent(contentHandler);
-		contentHandler.elementLineBreak(PropertyConstants.VALUE_DESCRIPTION, valueDescription);
+	public void accept(PropertyVisitor propertyVisitor) throws SAXException {
+		propertyVisitor.visit(this);
+	}
+
+	public String getType() {
+		return PropertyConstants.PROPERTY_WITH_VALUE_DESCRIPTION;
 	}
 	
 	/**

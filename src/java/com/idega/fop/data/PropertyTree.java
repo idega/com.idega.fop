@@ -1,5 +1,5 @@
 /*
- * $Id: PropertyTree.java,v 1.2 2007/04/18 17:53:47 thomas Exp $
+ * $Id: PropertyTree.java,v 1.3 2007/04/20 18:12:55 thomas Exp $
  * Created on Apr 3, 2007
  *
  * Copyright (C) 2007 Idega Software hf. All Rights Reserved.
@@ -11,10 +11,9 @@ package com.idega.fop.data;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.xml.sax.SAXException;
-import com.idega.fop.tools.EasyGenerationContentHandlerProxy;
+import com.idega.fop.visitor.PropertyVisitor;
 import com.idega.io.serialization.ObjectReader;
 import com.idega.io.serialization.ObjectWriter;
 import com.idega.presentation.IWContext;
@@ -22,10 +21,10 @@ import com.idega.presentation.IWContext;
 
 /**
  * 
- *  Last modified: $Date: 2007/04/18 17:53:47 $ by $Author: thomas $
+ *  Last modified: $Date: 2007/04/20 18:12:55 $ by $Author: thomas $
  * 
  * @author <a href="mailto:thomas@idega.com">thomas</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PropertyTree implements Property {
 	
@@ -88,20 +87,9 @@ public class PropertyTree implements Property {
 		this.value.add(property);
 		return this;
 	}
-
-	public void generateFor(EasyGenerationContentHandlerProxy contentHandler) throws SAXException {
-		contentHandler.startElementLineBreak(PropertyConstants.PROPERTY_TREE);
-
-		contentHandler.elementLineBreak(PropertyConstants.KEY, key);
-		contentHandler.elementLineBreak(PropertyConstants.DESCRIPTION, description);
-		contentHandler.startElementLineBreak(PropertyConstants.VALUE);
-		Iterator iterator = value.iterator();
-		while (iterator.hasNext()) {
-			Property property = (Property) iterator.next();
-			property.generateFor(contentHandler);
-		}
-		contentHandler.endELementLineBreak(PropertyConstants.VALUE);
-		contentHandler.endELementLineBreak(PropertyConstants.PROPERTY_TREE);
+	
+	public void accept(PropertyVisitor propertyVisitor) throws SAXException {
+		propertyVisitor.visit(this);
 	}
 	
 	public Object write(ObjectWriter writer, IWContext iwc) throws RemoteException {
@@ -121,6 +109,10 @@ public class PropertyTree implements Property {
 	public String getKey() {
 		// TODO Auto-generated method stub
 		return key;
+	}
+	
+	public List getValue() {
+		return value;
 	}
 
 }

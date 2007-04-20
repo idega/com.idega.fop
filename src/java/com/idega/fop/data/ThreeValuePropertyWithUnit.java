@@ -1,5 +1,5 @@
 /*
- * $Id: ThreeValuePropertyWithUnit.java,v 1.1 2007/04/18 17:53:47 thomas Exp $
+ * $Id: ThreeValuePropertyWithUnit.java,v 1.2 2007/04/20 18:12:55 thomas Exp $
  * Created on Apr 11, 2007
  *
  * Copyright (C) 2007 Idega Software hf. All Rights Reserved.
@@ -11,14 +11,15 @@ package com.idega.fop.data;
 
 import org.xml.sax.SAXException;
 import com.idega.fop.tools.EasyGenerationContentHandlerProxy;
+import com.idega.fop.visitor.PropertyVisitor;
 
 
 /**
  * 
- *  Last modified: $Date: 2007/04/18 17:53:47 $ by $Author: thomas $
+ *  Last modified: $Date: 2007/04/20 18:12:55 $ by $Author: thomas $
  * 
  * @author <a href="mailto:thomas@idega.com">thomas</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ThreeValuePropertyWithUnit extends PropertyImpl {
 	
@@ -49,19 +50,13 @@ public class ThreeValuePropertyWithUnit extends PropertyImpl {
 		this.unit = unit;
 	}
 	
-	protected String getType() {
-		return PropertyConstants.PROPERTY_THREE_VALUES_WITH_UNIT;
+	public void accept(PropertyVisitor propertyVisitor) throws SAXException {
+		propertyVisitor.visit(this);
 	}
 	
-	protected void addContent(EasyGenerationContentHandlerProxy contentHandler) throws SAXException {
-		super.addContent(contentHandler);
-		contentHandler.elementLineBreak(PropertyConstants.DESCRIPTION2, description2);
-		contentHandler.elementLineBreak(PropertyConstants.VALUE2, value2);
-		contentHandler.elementLineBreak(PropertyConstants.DESCRIPTION3, description3);
-		contentHandler.elementLineBreak(PropertyConstants.VALUE3, value3);
-		contentHandler.elementLineBreak(PropertyConstants.UNIT, unit);
+	public String getType() {
+		return PropertyConstants.PROPERTY_THREE_VALUES_WITH_UNIT;
 	}
-
 	
 	/**
 	 * @return the description2

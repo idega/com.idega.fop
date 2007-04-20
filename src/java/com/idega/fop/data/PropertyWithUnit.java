@@ -1,5 +1,5 @@
 /*
- * $Id: PropertyWithUnit.java,v 1.1 2007/04/18 17:53:47 thomas Exp $
+ * $Id: PropertyWithUnit.java,v 1.2 2007/04/20 18:12:55 thomas Exp $
  * Created on Apr 11, 2007
  *
  * Copyright (C) 2007 Idega Software hf. All Rights Reserved.
@@ -11,16 +11,17 @@ package com.idega.fop.data;
 
 import org.xml.sax.SAXException;
 import com.idega.fop.tools.EasyGenerationContentHandlerProxy;
+import com.idega.fop.visitor.PropertyVisitor;
 
 
 /**
  * 
  * Represents things like: "Staerd 300 A"
  * 
- *  Last modified: $Date: 2007/04/18 17:53:47 $ by $Author: thomas $
+ *  Last modified: $Date: 2007/04/20 18:12:55 $ by $Author: thomas $
  * 
  * @author <a href="mailto:thomas@idega.com">thomas</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class PropertyWithUnit extends PropertyImpl {
 	
@@ -30,16 +31,14 @@ public class PropertyWithUnit extends PropertyImpl {
 		super(key, description, value);
 		this.unit = unit;
 	}
+	
+	public void accept(PropertyVisitor propertyVisitor) throws SAXException {
+		propertyVisitor.visit(this);
+	}
 
-	protected String getType() {
+	public String getType() {
 		return PropertyConstants.PROPERTY_WITH_UNIT;
 	}
-	
-	protected void addContent(EasyGenerationContentHandlerProxy contentHandler) throws SAXException {
-		super.addContent(contentHandler);
-		contentHandler.elementLineBreak(PropertyConstants.UNIT, unit);
-	}
-
 	
 	/**
 	 * @return the unit
