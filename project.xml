@@ -42,6 +42,8 @@
       <artifactId>fop</artifactId>
       <version>0.20.5</version>
       <type>jar</type>
+      <url>http://jakarta.apache.org/</url>
+      <idegaweb.bundle.include>true</idegaweb.bundle.include>
     </dependency>
       <dependency>
       <!--  avalon is needed by fop  -->
@@ -49,6 +51,8 @@
       <artifactId>avalon-framework</artifactId>
       <version>4.1.5</version>
       <type>jar</type>
+      <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      <url>http://jakarta.apache.org/</url>
     </dependency>
   </dependencies>
   <build>
