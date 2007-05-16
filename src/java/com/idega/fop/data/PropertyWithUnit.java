@@ -1,5 +1,5 @@
 /*
- * $Id: PropertyWithUnit.java,v 1.2 2007/04/20 18:12:55 thomas Exp $
+ * $Id: PropertyWithUnit.java,v 1.3 2007/05/16 15:57:02 thomas Exp $
  * Created on Apr 11, 2007
  *
  * Copyright (C) 2007 Idega Software hf. All Rights Reserved.
@@ -18,10 +18,10 @@ import com.idega.fop.visitor.PropertyVisitor;
  * 
  * Represents things like: "Staerd 300 A"
  * 
- *  Last modified: $Date: 2007/04/20 18:12:55 $ by $Author: thomas $
+ *  Last modified: $Date: 2007/05/16 15:57:02 $ by $Author: thomas $
  * 
  * @author <a href="mailto:thomas@idega.com">thomas</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PropertyWithUnit extends PropertyImpl {
 	
@@ -32,8 +32,8 @@ public class PropertyWithUnit extends PropertyImpl {
 		this.unit = unit;
 	}
 	
-	public void accept(PropertyVisitor propertyVisitor) throws SAXException {
-		propertyVisitor.visit(this);
+	public Object accept(PropertyVisitor propertyVisitor)  {
+		return propertyVisitor.visit(this);
 	}
 
 	public String getType() {

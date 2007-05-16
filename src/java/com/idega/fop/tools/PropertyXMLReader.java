@@ -1,5 +1,5 @@
 /*
- * $Id: PropertyXMLReader.java,v 1.2 2007/04/20 18:12:55 thomas Exp $
+ * $Id: PropertyXMLReader.java,v 1.3 2007/05/16 15:57:32 thomas Exp $
  * Created on Apr 3, 2007
  *
  * Copyright (C) 2007 Idega Software hf. All Rights Reserved.
@@ -26,10 +26,10 @@ import com.idega.fop.visitor.PropertyVisitor;
 
 /**
  * 
- *  Last modified: $Date: 2007/04/20 18:12:55 $ by $Author: thomas $
+ *  Last modified: $Date: 2007/05/16 15:57:32 $ by $Author: thomas $
  * 
  * @author <a href="mailto:thomas@idega.com">thomas</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PropertyXMLReader extends AbstractObjectReader implements PropertyVisitor{
 
@@ -58,7 +58,12 @@ public class PropertyXMLReader extends AbstractObjectReader implements PropertyV
         handler.startElementLineBreak(PropertyConstants.ROOT);
         
         //Generate SAX events
-        property.accept(this);
+        Object result = property.accept(this);
+        if (result != null) {
+        	// bad luck, unwrap exception
+        	SAXException ex = (SAXException) result;
+        	throw ex;
+        }
         
         handler.endELementLineBreak(PropertyConstants.ROOT);
         
@@ -66,26 +71,38 @@ public class PropertyXMLReader extends AbstractObjectReader implements PropertyV
         handler.endDocument(); 
 	}
 
-	public void visit(PropertyTree propertyTree) throws SAXException {
-		handler.startElementLineBreak(PropertyConstants.PROPERTY_TREE);
-
-		handler.elementLineBreak(PropertyConstants.KEY, propertyTree.getKey());
-		handler.elementLineBreak(PropertyConstants.DESCRIPTION, propertyTree.getDescription());
-		handler.startElementLineBreak(PropertyConstants.VALUE);
-		Iterator iterator = propertyTree.getValue().iterator();
-		while (iterator.hasNext()) {
-			Property property = (Property) iterator.next();
-			property.accept(this);
+	public Object visit(PropertyTree propertyTree) {
+		try {
+			handler.startElementLineBreak(PropertyConstants.PROPERTY_TREE);
+	
+			handler.elementLineBreak(PropertyConstants.KEY, propertyTree.getKey());
+			handler.elementLineBreak(PropertyConstants.DESCRIPTION, propertyTree.getDescription());
+			handler.startElementLineBreak(PropertyConstants.VALUE);
+			Iterator iterator = propertyTree.getValue().iterator();
+			while (iterator.hasNext()) {
+				Property property = (Property) iterator.next();
+				property.accept(this);
+			}
+			handler.endELementLineBreak(PropertyConstants.VALUE);
+			handler.endELementLineBreak(PropertyConstants.PROPERTY_TREE);
 		}
-		handler.endELementLineBreak(PropertyConstants.VALUE);
-		handler.endELementLineBreak(PropertyConstants.PROPERTY_TREE);
-		// TODO Auto-generated method stub
-		
+		catch (SAXException ex) {
+			// tricky: return exception as object since others are also using the visitor pattern
+			return ex;
+		}
+		return null;
 	}
 
-	public void visit(PropertyImpl propertyImpl) throws SAXException {
-		addContent(propertyImpl);
-		addEnd(propertyImpl);
+	public Object visit(PropertyImpl propertyImpl)  {
+		try {
+			addContent(propertyImpl);
+			addEnd(propertyImpl);
+		}
+		catch (SAXException ex) {
+			// tricky: return exception as object since others are also using the visitor pattern
+			return ex;
+		}
+		return null;
 	}
 		
 	private void addContent(PropertyImpl propertyImpl) throws SAXException {
@@ -99,25 +116,47 @@ public class PropertyXMLReader extends AbstractObjectReader implements PropertyV
 		handler.endELementLineBreak(propertyImpl.getType());
 	}
 	
-	public void visit(PropertyWithUnit propertyWithUnit) throws SAXException {
-		addContent(propertyWithUnit);
-		handler.elementLineBreak(PropertyConstants.UNIT, propertyWithUnit.getUnit());
-		addEnd(propertyWithUnit);
+	public Object visit(PropertyWithUnit propertyWithUnit)  {
+		try {
+			addContent(propertyWithUnit);
+			handler.elementLineBreak(PropertyConstants.UNIT, propertyWithUnit.getUnit());
+			addEnd(propertyWithUnit);
+		}
+		catch (SAXException ex) {
+			// tricky: return exception as object since others are also using the visitor pattern
+			return ex;
+		}
+		return null;
 	}
 
-	public void visit(PropertyWithValueDescription propertyWithValueDescription) throws SAXException {
-		addContent(propertyWithValueDescription);
-		handler.elementLineBreak(PropertyConstants.VALUE_DESCRIPTION, propertyWithValueDescription.getValueDescription());
-		addEnd(propertyWithValueDescription);
+	public Object visit(PropertyWithValueDescription propertyWithValueDescription)  {
+		try {
+			addContent(propertyWithValueDescription);
+			handler.elementLineBreak(PropertyConstants.VALUE_DESCRIPTION, propertyWithValueDescription.getValueDescription());
+			addEnd(propertyWithValueDescription);
+		}
+		catch (SAXException ex) {
+			// tricky: return exception as object since others are also using the visitor pattern
+			return ex;
+		}
+		return null;
 	}
 
-	public void visit(ThreeValuePropertyWithUnit threeValuePropertyWithUnit) throws SAXException {
-		addContent(threeValuePropertyWithUnit);
-		handler.elementLineBreak(PropertyConstants.DESCRIPTION2, threeValuePropertyWithUnit.getDescription2());
-		handler.elementLineBreak(PropertyConstants.VALUE2,  threeValuePropertyWithUnit.getValue2());
-		handler.elementLineBreak(PropertyConstants.DESCRIPTION3, threeValuePropertyWithUnit.getDescription3());
-		handler.elementLineBreak(PropertyConstants.VALUE3, threeValuePropertyWithUnit.getValue3());
-		handler.elementLineBreak(PropertyConstants.UNIT, threeValuePropertyWithUnit.getUnit());
-		addEnd(threeValuePropertyWithUnit);
+	public Object visit(ThreeValuePropertyWithUnit threeValuePropertyWithUnit) {
+		try {
+			addContent(threeValuePropertyWithUnit);
+			handler.elementLineBreak(PropertyConstants.DESCRIPTION2, threeValuePropertyWithUnit.getDescription2());
+			handler.elementLineBreak(PropertyConstants.VALUE2,  threeValuePropertyWithUnit.getValue2());
+			handler.elementLineBreak(PropertyConstants.DESCRIPTION3, threeValuePropertyWithUnit.getDescription3());
+			handler.elementLineBreak(PropertyConstants.VALUE3, threeValuePropertyWithUnit.getValue3());
+			handler.elementLineBreak(PropertyConstants.UNIT, threeValuePropertyWithUnit.getUnit());
+			addEnd(threeValuePropertyWithUnit);
+		}
+		catch (SAXException ex) {
+			// tricky: return exception as object since others are also using the visitor pattern
+			return ex;
+		}
+		return null;
 	}
+
 }

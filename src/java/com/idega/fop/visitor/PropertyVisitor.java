@@ -1,5 +1,5 @@
 /*
- * $Id: PropertyVisitor.java,v 1.1 2007/04/20 18:12:55 thomas Exp $
+ * $Id: PropertyVisitor.java,v 1.2 2007/05/16 15:57:32 thomas Exp $
  * Created on Apr 20, 2007
  *
  * Copyright (C) 2007 Idega Software hf. All Rights Reserved.
@@ -9,7 +9,6 @@
  */
 package com.idega.fop.visitor;
 
-import org.xml.sax.SAXException;
 import com.idega.fop.data.PropertyImpl;
 import com.idega.fop.data.PropertyTree;
 import com.idega.fop.data.PropertyWithUnit;
@@ -19,20 +18,20 @@ import com.idega.fop.data.ThreeValuePropertyWithUnit;
 
 /**
  * 
- *  Last modified: $Date: 2007/04/20 18:12:55 $ by $Author: thomas $
+ *  Last modified: $Date: 2007/05/16 15:57:32 $ by $Author: thomas $
  * 
  * @author <a href="mailto:thomas@idega.com">thomas</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface PropertyVisitor {
 	
-	void visit(PropertyTree propertyTree) throws SAXException;
+	Object visit(PropertyTree propertyTree) ;
 	
-	void visit(PropertyImpl propertyImpl) throws SAXException;
+	Object visit(PropertyImpl propertyImpl) ;
 	
-	void visit(PropertyWithUnit propertyWithUnit) throws SAXException;
+	Object visit(PropertyWithUnit propertyWithUnit) ;
 	
-	void visit(PropertyWithValueDescription propertyWithValueDescription) throws SAXException;
+	Object visit(PropertyWithValueDescription propertyWithValueDescription) ;
 	
-	void visit(ThreeValuePropertyWithUnit threeValuePropertyWithUnit) throws SAXException;
+	Object visit(ThreeValuePropertyWithUnit threeValuePropertyWithUnit);
 }
