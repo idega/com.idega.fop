@@ -103,7 +103,7 @@ font-size="10pt"
   <xsl:when test="unit ='Ω'">
   <fo:inline font-family="Symbol">&#x2126;</fo:inline>
   </xsl:when>
-    <xsl:when test="unit ='MegaOhm'">
+    <xsl:when test="unit ='MΩ'">
   M<fo:inline font-family="Symbol">&#x2126;</fo:inline>
   </xsl:when>
   <xsl:otherwise>
