@@ -7,8 +7,13 @@
   <currentVersion>1.0</currentVersion>
   <inceptionYear>2007</inceptionYear>
   <shortDescription>extension of the apache fop project</shortDescription>
-  <description>extension of the apache fop project - convert pure data or xml data to  PDF, PCL, PS, SVG, XML (area tree representation), Print, AWT, MIF and TXT</description>
+  <description>extension of the apache fop project - convert pure data or xml data to PDF, PCL, PS, SVG, XML (area tree representation), Print, AWT, MIF and TXT</description>
   <versions>
+    <version>
+      <id>1.0</id>
+      <name>1.0</name>
+      <tag>FOP_1_0</tag>
+    </version>
   </versions>
   <developers>
     <developer>
@@ -27,7 +32,7 @@
     </developer>
   </developers>
   <dependencies>
-     <dependency>
+    <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.core</artifactId>
       <version>3.1.70</version>
@@ -37,23 +42,24 @@
         <eclipse.dependency>true</eclipse.dependency>
       </properties>
     </dependency>
-     <dependency>
+    <dependency>
       <groupId>fop</groupId>
       <artifactId>fop</artifactId>
       <version>0.20.5</version>
       <type>jar</type>
       <url>http://jakarta.apache.org/</url>
-            <properties>
+      <properties>
         <idegaweb.bundle.include>true</idegaweb.bundle.include>
       </properties>
     </dependency>
-      <dependency>
+    <dependency>
       <!--  avalon is needed by fop  -->
+
       <groupId>avalon-framework</groupId>
       <artifactId>avalon-framework</artifactId>
       <version>4.1.5</version>
       <type>jar</type>
-            <properties>
+      <properties>
         <idegaweb.bundle.include>true</idegaweb.bundle.include>
       </properties>
       <url>http://jakarta.apache.org/</url>
