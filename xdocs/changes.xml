@@ -1,0 +1,14 @@
+<document>
+  <properties>
+    <title>Developer changes</title>
+    <author email="thomas@idega.com">Thomas Hilbig</author>
+  </properties>
+  <body>
+    <release version="1.0" date="2004-07-21">
+      <action dev="thomas" type="update">
+        Declaration of first version.
+      </action>              
+    </release>
+
+  </body>
+</document>
